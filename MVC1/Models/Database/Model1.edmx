@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PASSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="bigint" Nullable="false" />
+          <Property Name="ssn" Type="varbinary(max)" />
+          <Property Name="cjis" Type="varchar" MaxLength="12" />
+          <Property Name="networkId" Type="varchar" MaxLength="50" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="middleName" Type="varchar" MaxLength="50" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="suffix" Type="varchar" MaxLength="10" />
+          <Property Name="formerName" Type="varchar" MaxLength="50" />
+          <Property Name="preferredName" Type="varchar" MaxLength="50" />
+          <Property Name="sex" Type="varbinary(max)" />
+          <Property Name="maritalStatus" Type="varchar" MaxLength="1" />
+          <Property Name="dob" Type="varbinary(max)" />
+          <Property Name="birthPlace" Type="varchar" MaxLength="30" />
+          <Property Name="dLicense" Type="varbinary(max)" />
+          <Property Name="passport" Type="varbinary(max)" />
+          <Property Name="isActive" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="terminationCode" Type="varchar" MaxLength="10" />
+          <Property Name="veteran" Type="varchar" MaxLength="5" />
+          <Property Name="division" Type="varchar" MaxLength="8" />
+          <Property Name="department" Type="varchar" MaxLength="10" />
+          <Property Name="employeeType" Type="varchar" MaxLength="10" />
+          <Property Name="createIP" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="createDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="createdBy" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="modifyIP" Type="varchar" MaxLength="15" />
+          <Property Name="modifyDate" Type="datetime2" Precision="7" />
+          <Property Name="modifiedBy" Type="varchar" MaxLength="12" />
+          <Property Name="supervisorId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="EmployeeContact">
+          <Key>
+            <PropertyRef Name="employeeContactId" />
+          </Key>
+          <Property Name="employeeContactId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employeeId" Type="bigint" Nullable="false" />
+          <Property Name="contactType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="createIP" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="createDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="createdBy" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="modifyIP" Type="varchar" MaxLength="15" />
+          <Property Name="modifyDate" Type="datetime2" Precision="7" />
+          <Property Name="modifiedBy" Type="varchar" MaxLength="12" />
+        </EntityType>
+        <Association Name="FK_Employee_to_Employee(supervisor)">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="supervisorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeContact_to_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeContact" Type="Self.EmployeeContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="EmployeeContact">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PASSModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="HR" store:Type="Tables" />
+          <EntitySet Name="EmployeeContact" EntityType="Self.EmployeeContact" Schema="HR" store:Type="Tables" />
+          <AssociationSet Name="FK_Employee_to_Employee(supervisor)" Association="Self.FK_Employee_to_Employee(supervisor)">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="Self.FK_EmployeeContact_to_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeContact" EntitySet="EmployeeContact" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PASSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="employeeId" />
+          </Key>
+          <Property Name="employeeId" Type="Int64" Nullable="false" />
+          <Property Name="ssn" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="cjis" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="networkId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="middleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="suffix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="formerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="preferredName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sex" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="maritalStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="dob" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="birthPlace" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="dLicense" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="passport" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="isActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="terminationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="veteran" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="division" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="department" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="employeeType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="createdBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="modifyIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="modifyDate" Type="DateTime" Precision="7" />
+          <Property Name="modifiedBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="supervisorId" Type="Int64" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee2" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee1" ToRole="Employee" />
+          <NavigationProperty Name="EmployeeContacts" Relationship="PASSModel.FK_EmployeeContact_to_Employee" FromRole="Employee" ToRole="EmployeeContact" />
+        </EntityType>
+        <Association Name="FK_Employee_to_Employee_supervisor_">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="supervisorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PASSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <AssociationSet Name="FK_Employee_to_Employee_supervisor_" Association="Self.FK_Employee_to_Employee_supervisor_">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee1" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeContacts" EntityType="PASSModel.EmployeeContact" />
+          <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="PASSModel.FK_EmployeeContact_to_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeContact" EntitySet="EmployeeContacts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EmployeeContact">
+          <Key>
+            <PropertyRef Name="employeeContactId" />
+          </Key>
+          <Property Name="employeeContactId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employeeId" Type="Int64" Nullable="false" />
+          <Property Name="contactType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="createIP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="createDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="createdBy" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="modifyIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="modifyDate" Type="DateTime" Precision="7" />
+          <Property Name="modifiedBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employee" Relationship="PASSModel.FK_EmployeeContact_to_Employee" FromRole="EmployeeContact" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_EmployeeContact_to_Employee">
+          <End Type="PASSModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="PASSModel.EmployeeContact" Role="EmployeeContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="EmployeeContact">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PASSModelStoreContainer" CdmEntityContainer="PASSEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="PASSModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="ssn" ColumnName="ssn" />
+                <ScalarProperty Name="cjis" ColumnName="cjis" />
+                <ScalarProperty Name="networkId" ColumnName="networkId" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="middleName" ColumnName="middleName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="suffix" ColumnName="suffix" />
+                <ScalarProperty Name="formerName" ColumnName="formerName" />
+                <ScalarProperty Name="preferredName" ColumnName="preferredName" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="maritalStatus" ColumnName="maritalStatus" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="birthPlace" ColumnName="birthPlace" />
+                <ScalarProperty Name="dLicense" ColumnName="dLicense" />
+                <ScalarProperty Name="passport" ColumnName="passport" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="terminationCode" ColumnName="terminationCode" />
+                <ScalarProperty Name="veteran" ColumnName="veteran" />
+                <ScalarProperty Name="division" ColumnName="division" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+                <ScalarProperty Name="createIP" ColumnName="createIP" />
+                <ScalarProperty Name="createDate" ColumnName="createDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="modifyIP" ColumnName="modifyIP" />
+                <ScalarProperty Name="modifyDate" ColumnName="modifyDate" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="supervisorId" ColumnName="supervisorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeContacts">
+            <EntityTypeMapping TypeName="PASSModel.EmployeeContact">
+              <MappingFragment StoreEntitySet="EmployeeContact">
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="modifyDate" ColumnName="modifyDate" />
+                <ScalarProperty Name="modifyIP" ColumnName="modifyIP" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createDate" ColumnName="createDate" />
+                <ScalarProperty Name="createIP" ColumnName="createIP" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="contactType" ColumnName="contactType" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="employeeContactId" ColumnName="employeeContactId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
