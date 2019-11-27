@@ -5,6 +5,33 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="PASSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="VolunteerTimeSheet">
+          <Key>
+            <PropertyRef Name="UserTimeSheetId" />
+          </Key>
+          <Property Name="UserTimeSheetId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="VolunteerTimeSheetData">
+          <Key>
+            <PropertyRef Name="VTimeSheetDataId" />
+          </Key>
+          <Property Name="VTimeSheetDataId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserTimeSheetId" Type="bigint" Nullable="false" />
+          <Property Name="WorkDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Hours" Type="int" Nullable="false" />
+          <Property Name="Sec/Unit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="bigint" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="employeeId" />
@@ -78,7 +105,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VolunteerTimeSheet_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="VolunteerTimeSheet" Type="Self.VolunteerTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="VolunteerTimeSheet">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+          <End Role="VolunteerTimeSheet" Type="Self.VolunteerTimeSheet" Multiplicity="1" />
+          <End Role="VolunteerTimeSheetData" Type="Self.VolunteerTimeSheetData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VolunteerTimeSheet">
+              <PropertyRef Name="UserTimeSheetId" />
+            </Principal>
+            <Dependent Role="VolunteerTimeSheetData">
+              <PropertyRef Name="UserTimeSheetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PASSModelStoreContainer">
+          <EntitySet Name="VolunteerTimeSheet" EntityType="Self.VolunteerTimeSheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VolunteerTimeSheetData" EntityType="Self.VolunteerTimeSheetData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="HR" store:Type="Tables" />
           <EntitySet Name="EmployeeContact" EntityType="Self.EmployeeContact" Schema="HR" store:Type="Tables" />
           <AssociationSet Name="FK_Employee_to_Employee(supervisor)" Association="Self.FK_Employee_to_Employee(supervisor)">
@@ -88,6 +141,14 @@
           <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="Self.FK_EmployeeContact_to_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="EmployeeContact" EntitySet="EmployeeContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerTimeSheet_Employee" Association="Self.FK_VolunteerTimeSheet_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet" Association="Self.FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+            <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheet" />
+            <End Role="VolunteerTimeSheetData" EntitySet="VolunteerTimeSheetData" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -130,6 +191,7 @@
           <NavigationProperty Name="Employee1" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee" ToRole="Employee1" />
           <NavigationProperty Name="Employee2" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee1" ToRole="Employee" />
           <NavigationProperty Name="EmployeeContacts" Relationship="PASSModel.FK_EmployeeContact_to_Employee" FromRole="Employee" ToRole="EmployeeContact" />
+          <NavigationProperty Name="VolunteerTimeSheets" Relationship="PASSModel.FK_VolunteerTimeSheet_Employee" FromRole="Employee" ToRole="VolunteerTimeSheet" />
         </EntityType>
         <Association Name="FK_Employee_to_Employee_supervisor_">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
@@ -153,6 +215,16 @@
           <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="PASSModel.FK_EmployeeContact_to_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="EmployeeContact" EntitySet="EmployeeContacts" />
+          </AssociationSet>
+          <EntitySet Name="VolunteerTimeSheets" EntityType="PASSModel.VolunteerTimeSheet" />
+          <EntitySet Name="VolunteerTimeSheetDatas" EntityType="PASSModel.VolunteerTimeSheetData" />
+          <AssociationSet Name="FK_VolunteerTimeSheet_Employee" Association="PASSModel.FK_VolunteerTimeSheet_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet" Association="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+            <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheets" />
+            <End Role="VolunteerTimeSheetData" EntitySet="VolunteerTimeSheetDatas" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EmployeeContact">
@@ -180,6 +252,60 @@
             </Principal>
             <Dependent Role="EmployeeContact">
               <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VolunteerTimeSheet">
+          <Key>
+            <PropertyRef Name="UserTimeSheetId" />
+          </Key>
+          <Property Name="UserTimeSheetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Employee" Relationship="PASSModel.FK_VolunteerTimeSheet_Employee" FromRole="VolunteerTimeSheet" ToRole="Employee" />
+          <NavigationProperty Name="VolunteerTimeSheetDatas" Relationship="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet" FromRole="VolunteerTimeSheet" ToRole="VolunteerTimeSheetData" />
+        </EntityType>
+        <EntityType Name="VolunteerTimeSheetData">
+          <Key>
+            <PropertyRef Name="VTimeSheetDataId" />
+          </Key>
+          <Property Name="VTimeSheetDataId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserTimeSheetId" Type="Int64" Nullable="false" />
+          <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Hours" Type="Int32" Nullable="false" />
+          <Property Name="Sec_Unit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int64" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="VolunteerTimeSheet" Relationship="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet" FromRole="VolunteerTimeSheetData" ToRole="VolunteerTimeSheet" />
+        </EntityType>
+        <Association Name="FK_VolunteerTimeSheet_Employee">
+          <End Type="PASSModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="PASSModel.VolunteerTimeSheet" Role="VolunteerTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="employeeId" />
+            </Principal>
+            <Dependent Role="VolunteerTimeSheet">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+          <End Type="PASSModel.VolunteerTimeSheet" Role="VolunteerTimeSheet" Multiplicity="1" />
+          <End Type="PASSModel.VolunteerTimeSheetData" Role="VolunteerTimeSheetData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VolunteerTimeSheet">
+              <PropertyRef Name="UserTimeSheetId" />
+            </Principal>
+            <Dependent Role="VolunteerTimeSheetData">
+              <PropertyRef Name="UserTimeSheetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -237,6 +363,35 @@
                 <ScalarProperty Name="contactType" ColumnName="contactType" />
                 <ScalarProperty Name="employeeId" ColumnName="employeeId" />
                 <ScalarProperty Name="employeeContactId" ColumnName="employeeContactId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VolunteerTimeSheets">
+            <EntityTypeMapping TypeName="PASSModel.VolunteerTimeSheet">
+              <MappingFragment StoreEntitySet="VolunteerTimeSheet">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="UserTimeSheetId" ColumnName="UserTimeSheetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VolunteerTimeSheetDatas">
+            <EntityTypeMapping TypeName="PASSModel.VolunteerTimeSheetData">
+              <MappingFragment StoreEntitySet="VolunteerTimeSheetData">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Sec_Unit" ColumnName="Sec/Unit" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="UserTimeSheetId" ColumnName="UserTimeSheetId" />
+                <ScalarProperty Name="VTimeSheetDataId" ColumnName="VTimeSheetDataId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

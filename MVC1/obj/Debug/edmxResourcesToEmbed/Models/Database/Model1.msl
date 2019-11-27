@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PASSModelStoreContainer" CdmEntityContainer="PASSEntities">
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="PASSModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+          <ScalarProperty Name="ssn" ColumnName="ssn" />
+          <ScalarProperty Name="cjis" ColumnName="cjis" />
+          <ScalarProperty Name="networkId" ColumnName="networkId" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="middleName" ColumnName="middleName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="suffix" ColumnName="suffix" />
+          <ScalarProperty Name="formerName" ColumnName="formerName" />
+          <ScalarProperty Name="preferredName" ColumnName="preferredName" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="maritalStatus" ColumnName="maritalStatus" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="birthPlace" ColumnName="birthPlace" />
+          <ScalarProperty Name="dLicense" ColumnName="dLicense" />
+          <ScalarProperty Name="passport" ColumnName="passport" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="terminationCode" ColumnName="terminationCode" />
+          <ScalarProperty Name="veteran" ColumnName="veteran" />
+          <ScalarProperty Name="division" ColumnName="division" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="employeeType" ColumnName="employeeType" />
+          <ScalarProperty Name="createIP" ColumnName="createIP" />
+          <ScalarProperty Name="createDate" ColumnName="createDate" />
+          <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+          <ScalarProperty Name="modifyIP" ColumnName="modifyIP" />
+          <ScalarProperty Name="modifyDate" ColumnName="modifyDate" />
+          <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+          <ScalarProperty Name="supervisorId" ColumnName="supervisorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeContacts">
+      <EntityTypeMapping TypeName="PASSModel.EmployeeContact">
+        <MappingFragment StoreEntitySet="EmployeeContact">
+          <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+          <ScalarProperty Name="modifyDate" ColumnName="modifyDate" />
+          <ScalarProperty Name="modifyIP" ColumnName="modifyIP" />
+          <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+          <ScalarProperty Name="createDate" ColumnName="createDate" />
+          <ScalarProperty Name="createIP" ColumnName="createIP" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="contactType" ColumnName="contactType" />
+          <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+          <ScalarProperty Name="employeeContactId" ColumnName="employeeContactId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VolunteerTimeSheets">
+      <EntityTypeMapping TypeName="PASSModel.VolunteerTimeSheet">
+        <MappingFragment StoreEntitySet="VolunteerTimeSheet">
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="UserTimeSheetId" ColumnName="UserTimeSheetId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VolunteerTimeSheetDatas">
+      <EntityTypeMapping TypeName="PASSModel.VolunteerTimeSheetData">
+        <MappingFragment StoreEntitySet="VolunteerTimeSheetData">
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Sec_Unit" ColumnName="Sec/Unit" />
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+          <ScalarProperty Name="UserTimeSheetId" ColumnName="UserTimeSheetId" />
+          <ScalarProperty Name="VTimeSheetDataId" ColumnName="VTimeSheetDataId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

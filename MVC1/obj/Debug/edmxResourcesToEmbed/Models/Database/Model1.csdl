@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PASSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="employeeId" />
+    </Key>
+    <Property Name="employeeId" Type="Int64" Nullable="false" />
+    <Property Name="ssn" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="cjis" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="networkId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="middleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="suffix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="formerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="preferredName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="sex" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="maritalStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="dob" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="birthPlace" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="dLicense" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="passport" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="isActive" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="terminationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="veteran" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="division" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="department" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="employeeType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="createIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="createdBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="modifyIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="modifyDate" Type="DateTime" Precision="7" />
+    <Property Name="modifiedBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="supervisorId" Type="Int64" />
+    <NavigationProperty Name="Employee1" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee" ToRole="Employee1" />
+    <NavigationProperty Name="Employee2" Relationship="Self.FK_Employee_to_Employee_supervisor_" FromRole="Employee1" ToRole="Employee" />
+    <NavigationProperty Name="EmployeeContacts" Relationship="PASSModel.FK_EmployeeContact_to_Employee" FromRole="Employee" ToRole="EmployeeContact" />
+    <NavigationProperty Name="VolunteerTimeSheets" Relationship="PASSModel.FK_VolunteerTimeSheet_Employee" FromRole="Employee" ToRole="VolunteerTimeSheet" />
+  </EntityType>
+  <Association Name="FK_Employee_to_Employee_supervisor_">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="supervisorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PASSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <AssociationSet Name="FK_Employee_to_Employee_supervisor_" Association="Self.FK_Employee_to_Employee_supervisor_">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Employee1" EntitySet="Employees" />
+    </AssociationSet>
+    <EntitySet Name="EmployeeContacts" EntityType="PASSModel.EmployeeContact" />
+    <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="PASSModel.FK_EmployeeContact_to_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="EmployeeContact" EntitySet="EmployeeContacts" />
+    </AssociationSet>
+    <EntitySet Name="VolunteerTimeSheets" EntityType="PASSModel.VolunteerTimeSheet" />
+    <EntitySet Name="VolunteerTimeSheetDatas" EntityType="PASSModel.VolunteerTimeSheetData" />
+    <AssociationSet Name="FK_VolunteerTimeSheet_Employee" Association="PASSModel.FK_VolunteerTimeSheet_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet" Association="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+      <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheets" />
+      <End Role="VolunteerTimeSheetData" EntitySet="VolunteerTimeSheetDatas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EmployeeContact">
+    <Key>
+      <PropertyRef Name="employeeContactId" />
+    </Key>
+    <Property Name="employeeContactId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="employeeId" Type="Int64" Nullable="false" />
+    <Property Name="contactType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="createIP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="createDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="createdBy" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="modifyIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="modifyDate" Type="DateTime" Precision="7" />
+    <Property Name="modifiedBy" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee" Relationship="PASSModel.FK_EmployeeContact_to_Employee" FromRole="EmployeeContact" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_EmployeeContact_to_Employee">
+    <End Type="PASSModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="PASSModel.EmployeeContact" Role="EmployeeContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="EmployeeContact">
+        <PropertyRef Name="employeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="VolunteerTimeSheet">
+    <Key>
+      <PropertyRef Name="UserTimeSheetId" />
+    </Key>
+    <Property Name="UserTimeSheetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeId" Type="Int64" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="ModifiedBy" Type="Int64" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+    <NavigationProperty Name="Employee" Relationship="PASSModel.FK_VolunteerTimeSheet_Employee" FromRole="VolunteerTimeSheet" ToRole="Employee" />
+    <NavigationProperty Name="VolunteerTimeSheetDatas" Relationship="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet" FromRole="VolunteerTimeSheet" ToRole="VolunteerTimeSheetData" />
+  </EntityType>
+  <EntityType Name="VolunteerTimeSheetData">
+    <Key>
+      <PropertyRef Name="VTimeSheetDataId" />
+    </Key>
+    <Property Name="VTimeSheetDataId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserTimeSheetId" Type="Int64" Nullable="false" />
+    <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="Hours" Type="Int32" Nullable="false" />
+    <Property Name="Sec_Unit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int64" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="ModifiedBy" Type="Int64" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="7" />
+    <NavigationProperty Name="VolunteerTimeSheet" Relationship="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet" FromRole="VolunteerTimeSheetData" ToRole="VolunteerTimeSheet" />
+  </EntityType>
+  <Association Name="FK_VolunteerTimeSheet_Employee">
+    <End Type="PASSModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="PASSModel.VolunteerTimeSheet" Role="VolunteerTimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="VolunteerTimeSheet">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+    <End Type="PASSModel.VolunteerTimeSheet" Role="VolunteerTimeSheet" Multiplicity="1" />
+    <End Type="PASSModel.VolunteerTimeSheetData" Role="VolunteerTimeSheetData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VolunteerTimeSheet">
+        <PropertyRef Name="UserTimeSheetId" />
+      </Principal>
+      <Dependent Role="VolunteerTimeSheetData">
+        <PropertyRef Name="UserTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

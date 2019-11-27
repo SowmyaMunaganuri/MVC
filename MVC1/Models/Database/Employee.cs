@@ -19,6 +19,7 @@ namespace MVC1.Models.Database
         {
             this.Employee1 = new HashSet<Employee>();
             this.EmployeeContacts = new HashSet<EmployeeContact>();
+            this.VolunteerTimeSheets = new HashSet<VolunteerTimeSheet>();
         }
     
         public long employeeId { get; set; }
@@ -56,5 +57,7 @@ namespace MVC1.Models.Database
         public virtual Employee Employee2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeContact> EmployeeContacts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VolunteerTimeSheet> VolunteerTimeSheets { get; set; }
     }
 }

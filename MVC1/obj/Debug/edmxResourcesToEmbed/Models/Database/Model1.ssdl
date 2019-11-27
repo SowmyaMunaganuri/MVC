@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PASSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="VolunteerTimeSheet">
+    <Key>
+      <PropertyRef Name="UserTimeSheetId" />
+    </Key>
+    <Property Name="UserTimeSheetId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+    <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="ModifiedBy" Type="bigint" />
+    <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="VolunteerTimeSheetData">
+    <Key>
+      <PropertyRef Name="VTimeSheetDataId" />
+    </Key>
+    <Property Name="VTimeSheetDataId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserTimeSheetId" Type="bigint" Nullable="false" />
+    <Property Name="WorkDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="Hours" Type="int" Nullable="false" />
+    <Property Name="Sec/Unit" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedBy" Type="bigint" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="ModifiedBy" Type="bigint" />
+    <Property Name="ModifiedDate" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="employeeId" />
+    </Key>
+    <Property Name="employeeId" Type="bigint" Nullable="false" />
+    <Property Name="ssn" Type="varbinary(max)" />
+    <Property Name="cjis" Type="varchar" MaxLength="12" />
+    <Property Name="networkId" Type="varchar" MaxLength="50" />
+    <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="middleName" Type="varchar" MaxLength="50" />
+    <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="suffix" Type="varchar" MaxLength="10" />
+    <Property Name="formerName" Type="varchar" MaxLength="50" />
+    <Property Name="preferredName" Type="varchar" MaxLength="50" />
+    <Property Name="sex" Type="varbinary(max)" />
+    <Property Name="maritalStatus" Type="varchar" MaxLength="1" />
+    <Property Name="dob" Type="varbinary(max)" />
+    <Property Name="birthPlace" Type="varchar" MaxLength="30" />
+    <Property Name="dLicense" Type="varbinary(max)" />
+    <Property Name="passport" Type="varbinary(max)" />
+    <Property Name="isActive" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="terminationCode" Type="varchar" MaxLength="10" />
+    <Property Name="veteran" Type="varchar" MaxLength="5" />
+    <Property Name="division" Type="varchar" MaxLength="8" />
+    <Property Name="department" Type="varchar" MaxLength="10" />
+    <Property Name="employeeType" Type="varchar" MaxLength="10" />
+    <Property Name="createIP" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="createDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="createdBy" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="modifyIP" Type="varchar" MaxLength="15" />
+    <Property Name="modifyDate" Type="datetime2" Precision="7" />
+    <Property Name="modifiedBy" Type="varchar" MaxLength="12" />
+    <Property Name="supervisorId" Type="bigint" />
+  </EntityType>
+  <EntityType Name="EmployeeContact">
+    <Key>
+      <PropertyRef Name="employeeContactId" />
+    </Key>
+    <Property Name="employeeContactId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="employeeId" Type="bigint" Nullable="false" />
+    <Property Name="contactType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="255" />
+    <Property Name="createIP" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="createDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="createdBy" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="modifyIP" Type="varchar" MaxLength="15" />
+    <Property Name="modifyDate" Type="datetime2" Precision="7" />
+    <Property Name="modifiedBy" Type="varchar" MaxLength="12" />
+  </EntityType>
+  <Association Name="FK_Employee_to_Employee(supervisor)">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="Employee1">
+        <PropertyRef Name="supervisorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeeContact_to_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="EmployeeContact" Type="Self.EmployeeContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="EmployeeContact">
+        <PropertyRef Name="employeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VolunteerTimeSheet_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="VolunteerTimeSheet" Type="Self.VolunteerTimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="employeeId" />
+      </Principal>
+      <Dependent Role="VolunteerTimeSheet">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+    <End Role="VolunteerTimeSheet" Type="Self.VolunteerTimeSheet" Multiplicity="1" />
+    <End Role="VolunteerTimeSheetData" Type="Self.VolunteerTimeSheetData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VolunteerTimeSheet">
+        <PropertyRef Name="UserTimeSheetId" />
+      </Principal>
+      <Dependent Role="VolunteerTimeSheetData">
+        <PropertyRef Name="UserTimeSheetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PASSModelStoreContainer">
+    <EntitySet Name="VolunteerTimeSheet" EntityType="Self.VolunteerTimeSheet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VolunteerTimeSheetData" EntityType="Self.VolunteerTimeSheetData" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="HR" store:Type="Tables" />
+    <EntitySet Name="EmployeeContact" EntityType="Self.EmployeeContact" Schema="HR" store:Type="Tables" />
+    <AssociationSet Name="FK_Employee_to_Employee(supervisor)" Association="Self.FK_Employee_to_Employee(supervisor)">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Employee1" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeeContact_to_Employee" Association="Self.FK_EmployeeContact_to_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="EmployeeContact" EntitySet="EmployeeContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VolunteerTimeSheet_Employee" Association="Self.FK_VolunteerTimeSheet_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VolunteerTimeSheetData_VolunteerTimeSheet" Association="Self.FK_VolunteerTimeSheetData_VolunteerTimeSheet">
+      <End Role="VolunteerTimeSheet" EntitySet="VolunteerTimeSheet" />
+      <End Role="VolunteerTimeSheetData" EntitySet="VolunteerTimeSheetData" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

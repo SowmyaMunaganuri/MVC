@@ -4,11 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="798a16505a26445581aa0c5b6eb32307" Name="Diagram1">
+      <Diagram DiagramId="798a16505a26445581aa0c5b6eb32307" Name="Diagram1" ZoomLevel="76">
         <EntityTypeShape EntityType="PASSModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="PASSModel.FK_Employee_to_Employee_supervisor_" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PASSModel.EmployeeContact" Width="1.5" PointX="3" PointY="2.75" />
+        <EntityTypeShape EntityType="PASSModel.EmployeeContact" Width="1.75" PointX="3" PointY="1.375" />
         <AssociationConnector Association="PASSModel.FK_EmployeeContact_to_Employee" />
+        <EntityTypeShape EntityType="PASSModel.VolunteerTimeSheet" Width="1.75" PointX="2.875" PointY="5.125" />
+        <EntityTypeShape EntityType="PASSModel.VolunteerTimeSheetData" Width="2.25" PointX="5.375" PointY="5.125" />
+        <AssociationConnector Association="PASSModel.FK_VolunteerTimeSheet_Employee" />
+        <AssociationConnector Association="PASSModel.FK_VolunteerTimeSheetData_VolunteerTimeSheet" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

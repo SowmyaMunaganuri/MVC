@@ -27,5 +27,7 @@ namespace MVC1.Models.Database
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<EmployeeContact> EmployeeContacts { get; set; }
+        public virtual DbSet<VolunteerTimeSheet> VolunteerTimeSheets { get; set; }
+        public virtual DbSet<VolunteerTimeSheetData> VolunteerTimeSheetDatas { get; set; }
     }
 }
